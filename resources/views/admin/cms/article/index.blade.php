@@ -1,0 +1,82 @@
+@extends('admin.layouts.default')
+
+@section('head_css')
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/datatables.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css"/>
+@endsection
+
+@section('content')
+<div class="page-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="/">首页</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="#">文章管理</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <h3 class="page-title">
+                文章管理 &nbsp;<small>维护文章。</small>
+            </h3>
+        </div>
+        <div class="col-md-3" style="text-align: right">
+            <div class="actions"  style="margin:20px 0">
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm"  onclick="GridClickFunction_Add()" href="javascript:;" >
+                        <i class="fa fa-plus"></i> 新增文章
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="portlet light bordered">
+                <!-- Begin: life time stats -->
+                <div class="portlet-body table-container">
+                    <div class="table-group-search-wrapper" style="display:none">
+                        <div class="input-group input-medium pull-right">
+                            <input type="text" id="keyword" name="keyword" placeholder="关键字" class="keyword form-control" />
+                            <span class="input-group-btn">
+                                <button class="btn green searchbutton">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <table id="data_tables" class="table table-striped table-bordered table-hover table-checkable order-column" >
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>文章分类</th>
+                            <th>文章标题</th>
+                            <th>置顶</th>
+                            <th>评论</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('foot_script')
+<script type="text/javascript" src="/assets/global/plugins/datatables/datatables.min.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+<script type="text/javascript" src="/assets/global/scripts/datatable.js" ></script>
+
+<script type="text/javascript" src="/assets/pages/scripts/cms/article.js"></script>
+@endsection
