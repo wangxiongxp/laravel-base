@@ -3,9 +3,6 @@
 namespace App\Services;
 
 use App\Models\CmsCatalog;
-use App\Repositories\CmsCatalogRepository;
-use App\Repositories\MenuRepository;
-
 
 /**
  * Created by PhpStorm.
@@ -15,11 +12,10 @@ use App\Repositories\MenuRepository;
  */
 class CmsCatalogService
 {
-    protected $cmsCatalogRepository;
-
     public function __construct()
     {
-        $this->cmsCatalogRepository = new CmsCatalogRepository();
+        $this->PrimaryKey = "id";
+        $this->TableName  = 'cms_catalog';
     }
 
     public function getCatalogById($id)
@@ -60,7 +56,7 @@ class CmsCatalogService
 
     public function GetCatalogTree($parent_id)
     {
-        $root = CmsCatalog::where('parent_id', '=', $parent_id)->get();
+        $root = CmsCatalog::where('parent_id', '=', $parent_id)->orderBy('sort')->get();
 
         if(count($root)>0){
             foreach($root as &$item)

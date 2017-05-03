@@ -20,28 +20,24 @@
         </ul>
     </div>
 
-
-    <div class="row">
-        <div class="col-md-9">
-            <h3 class="page-title">
-                菜单管理 &nbsp;<small>设定管理端菜单项</small>
-            </h3>
-        </div>
-        <div class="col-md-3" style="text-align: right">
-            <div class="actions"  style="margin:20px 0">
-                <div class="btn-group">
-                    <a class="btn btn-default btn-sm"  onclick="GridClickFunction_Add()" href="javascript:;" >
-                        <i class="fa fa-plus"></i> 新增菜单
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" >
+    <div class="row" style="margin-top: 20px;">
         <div class="col-md-12" >
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet light bordered">
+
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> 菜单管理</span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided" >
+                            <label onclick="GridClickFunction_Add()" class="btn btn-transparent dark btn-outline btn-circle btn-sm">
+                                <i class="fa fa-plus"></i> 新增菜单</label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="portlet-body">
                     <div class="table-scrollable" >
                         <table style="min-width:360px" class="table table-striped table-bordered table-advance table-hover">

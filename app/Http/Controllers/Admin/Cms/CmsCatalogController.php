@@ -16,28 +16,27 @@ class CmsCatalogController extends Controller
         $this->cmsCatalogService = $cmsCatalogService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = array();
-        $data['catalogs'] = $this->cmsCatalogService->GetCatalogTree(0);
-        return view('admin/cms/catalog/index',$data);
-    }
-
-    public function addCatalog(){
-        return view('admin/cms/catalog/addCatalog');
+        $act = $request['act'] ? $request['act'] : '' ;
+        if($act == 'add'){
+            return view('admin/cms/catalog/addCatalog');
+        }elseif ($act == 'edit'){
+            $data = array();
+            $catalog = $this->cmsCatalogService->getCatalogById($request['id']);
+            $data['catalog'] = $catalog ;
+            return view('admin/cms/catalog/editCatalog',$data);
+        }else{
+            $data = array();
+            $data['catalogs'] = $this->cmsCatalogService->GetCatalogTree(0);
+            return view('admin/cms/catalog/index',$data);
+        }
     }
 
     public function saveCatalog(Request $request)
     {
         $this->cmsCatalogService->insertCatalog($request->all());
         return $this->showJsonResult(true, '保存成功', null);
-    }
-
-    public function editCatalog($id){
-        $data = array();
-        $catalog = $this->cmsCatalogService->getCatalogById($id);
-        $data['catalog'] = $catalog ;
-        return view('admin/cms/catalog/editCatalog',$data);
     }
 
     public function updateCatalog(Request $request)

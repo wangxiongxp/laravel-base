@@ -35,13 +35,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function() {
     //用户管理
     Route::get('/account', 'Admin\AccountController@index');
     Route::post('/account/query', 'Admin\AccountController@queryAccount');
-    Route::get('/account/add', 'Admin\AccountController@addAccount');
     Route::post('/account/save', 'Admin\AccountController@saveAccount');
-    Route::get('/account/edit/{id}', 'Admin\AccountController@editAccount');
     Route::post('/account/update', 'Admin\AccountController@updateAccount');
     Route::get('/account/delete/{id}', 'Admin\AccountController@deleteAccount');
     Route::get('/account/showResetPassword/{id}', 'Admin\AccountController@showResetPassword');
     Route::post('/account/resetPassword', 'Admin\AccountController@resetPassword');
+    Route::get('/account/export', 'Admin\AccountController@export');
 
     //角色管理
     Route::get('/role', 'Admin\RoleController@index');

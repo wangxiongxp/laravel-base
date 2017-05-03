@@ -4,23 +4,27 @@
     $menus = session('menus');
     $route = Route::current();
     $routeUri = '/'.$route->uri();
-    foreach ($menus as &$menu) {
-        $menu['active'] = false;
-        if($menu['url'] == $routeUri) {
-            $menu['active'] = true;
-        }
-        if($menu['hasChild']) {
-            foreach ($menu['children'] as &$submenu) {
-                $submenu['active'] = false;
-                if($submenu['url'] == $routeUri) {
-                    $submenu['active'] = true;
-                    $menu['active'] = true;
-                }
+
+    if(count($menus)>0){
+        foreach ($menus as &$menu) {
+            $menu['active'] = false;
+            if($menu['url'] == $routeUri) {
+                $menu['active'] = true;
             }
-            unset($submenu);
+            if($menu['hasChild']) {
+                foreach ($menu['children'] as &$submenu) {
+                    $submenu['active'] = false;
+                    if($submenu['url'] == $routeUri) {
+                        $submenu['active'] = true;
+                        $menu['active'] = true;
+                    }
+                }
+                unset($submenu);
+            }
         }
+        unset($menu);
     }
-    unset($menu);
+
 ?>
 
     <!-- BEGIN SIDEBAR MENU -->
@@ -48,9 +52,10 @@
             <!-- END RESPONSIVE QUICK SEARCH FORM -->
         </li>
 
+        @if(count($menus)>0)
         @foreach ($menus as $menu)
-            <li{!! $menu['active'] ? ' class="active"':'' !!}>
-                <a href="{{ $menu['url'] }}">
+            <li{!! $menu['active'] ? ' class="nav-item active"':' class="nav-item"' !!}>
+                <a class="nav-link nav-toggle" href="{{ $menu['url'] }}">
                     <i class="{{ $menu['icon_class'] }}"></i>
                     <span class="title">{{ $menu['title'] }}</span>
                     @if ($menu['active'])
@@ -63,8 +68,8 @@
                 @if ($menu['hasChild'])
                     <ul class="sub-menu">
                         @foreach ($menu['children'] as $submenu)
-                            <li{!! $submenu['active'] ? ' class="active"':'' !!}>
-                                <a href="{{ $submenu['url'] }}">
+                            <li{!! $submenu['active'] ? ' class="nav-item active"':' class="nav-item"' !!}>
+                                <a class="nav-link nav-toggle" href="{{ $submenu['url'] }}">
                                     <i class="{{ $submenu['icon_class'] }}"></i>&nbsp;
                                     <span class="title">{{ $submenu['title'] }}</span>
                                 </a>
@@ -74,6 +79,7 @@
                 @endif
             </li>
         @endforeach
+        @endif
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>

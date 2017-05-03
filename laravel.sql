@@ -11,7 +11,7 @@
  Target Server Version : 50633
  File Encoding         : utf-8
 
- Date: 04/11/2017 16:15:38 PM
+ Date: 05/03/2017 14:13:25 PM
 */
 
 SET NAMES utf8;
@@ -36,13 +36,13 @@ CREATE TABLE `account` (
   `updated_by` int(11) DEFAULT NULL,
   `remember_token` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `account`
 -- ----------------------------
 BEGIN;
-INSERT INTO `account` VALUES ('1', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'admin', '管理员', 'admin@163.com', '15135168888', '1', '1', '2017-02-08 11:11:11', '1', '2017-03-30 12:13:22', null, null), ('2', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'wx', null, '345293340@qq.com', null, null, null, '2017-04-07 03:27:24', null, '2017-04-07 03:27:24', null, 'tbYBt9dQjkQPmiUecKrozjvG8NszkB6wqSIckWYuHkcbGR2Qbo4hwBeDzi9K');
+INSERT INTO `account` VALUES ('1', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'superadmin', '超级管理员', '345293340@qq.com', '15135168888', '1', '1', '2017-02-08 11:11:11', '1', '2017-03-30 12:13:22', null, null), ('2', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'admin', '管理员', 'admin@163.com', null, null, null, '2017-04-07 03:27:24', null, '2017-04-07 03:27:24', null, 'JGAU3zuFtPnll1ro27W8H6SatpBykRKGSfoiPCtHlx6gjvKjtuQtMc62lxd2'), ('3', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'zhangsan', '张三', 'zhangsan@163.com', null, null, null, null, null, null, null, null), ('4', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'lisi', '李四', 'lisi@163.com', null, null, null, null, null, null, null, null), ('5', '$2y$10$.UJ12toVQ989of6oK0LSmOHXkBEwb1vUnhSjenKrFxfBNQBEM3Go2', 'wangwu', '王五', 'wangwu@163.com', null, null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -104,13 +104,13 @@ CREATE TABLE `cms_catalog` (
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `cms_catalog`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cms_catalog` VALUES ('1', null, '111', '111', '1', '111', '0', '1', null, null, null, '2017-04-07 11:26:15', '2017-04-07 11:36:13', null, null), ('2', null, '222', '222', null, '222', '0', '1', null, null, null, '2017-04-07 11:27:49', '2017-04-07 11:27:49', null, null);
+INSERT INTO `cms_catalog` VALUES ('1', null, '111', '111', '1', '111', '0', '1', null, null, null, '2017-04-07 11:26:15', '2017-04-07 11:36:13', null, null), ('2', null, '222', '222', '2', '222', '0', '1', null, null, null, '2017-04-07 11:27:49', '2017-04-07 11:27:49', null, null), ('3', null, '333', '333', '0', '333', '0', '1', null, null, null, '2017-05-02 09:17:41', '2017-05-02 09:17:41', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -130,6 +130,13 @@ CREATE TABLE `cms_comment` (
   `updated_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `cms_comment`
+-- ----------------------------
+BEGIN;
+INSERT INTO `cms_comment` VALUES ('1', '0', '1', '1', '1', '11111111', null, null, null, null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `cms_site`
@@ -177,7 +184,7 @@ CREATE TABLE `menu` (
 --  Records of `menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `menu` VALUES ('1', '首页', '/admin', 'fa fa-users', '0', '0', '1', null, '2017-04-07 07:54:30', '2017-04-07 07:54:30', null, null), ('2', '用户管理', '/admin/account', 'fa fa-users', '1', '0', '1', '用户管理', '2017-03-31 06:45:10', null, null, null), ('3', '角色管理', '/admin/role', 'fa fa-users', '2', '0', '1', null, '2017-03-30 10:00:18', '2017-03-30 09:33:17', null, null), ('4', '角色成员管理', '/admin/roleMember', 'fa fa-users', '3', '0', '1', null, '2017-04-07 06:06:12', '2017-04-07 06:06:12', null, null), ('5', '群组管理', '/admin/group', 'fa fa-users', '4', '0', '1', null, '2017-04-07 06:08:04', '2017-04-07 06:08:04', null, null), ('6', '群组成员管理', '/admin/groupMember', 'fa fa-users', '5', '0', '1', null, '2017-04-07 06:08:27', '2017-04-07 06:08:27', null, null), ('7', '菜单管理', '/admin/menu', 'fa fa-users', '6', '0', '1', null, '2017-04-07 06:08:43', '2017-04-07 06:08:43', null, null), ('9', '内容管理', '/admin/cms/catalog', 'fa fa-users', '7', '0', '0', null, '2017-04-07 07:58:53', '2017-04-07 07:57:01', null, null), ('10', '栏目管理', '/admin/cms/catalog', 'fa fa-users', '8', '9', '1', null, '2017-04-07 07:57:47', '2017-04-07 07:57:47', null, null), ('11', '文章管理', '/admin/cms/article', 'fa fa-users', '9', '9', '1', null, '2017-04-07 07:58:20', '2017-04-07 07:58:20', null, null), ('12', '评论管理', '/admin/cms/comment', 'fa fa-users', '10', '9', '1', null, '2017-04-07 07:58:53', '2017-04-07 07:58:53', null, null);
+INSERT INTO `menu` VALUES ('1', '首页', '/admin', 'fa fa-users', '0', '0', '1', null, '2017-04-07 07:54:30', '2017-04-07 07:54:30', null, null), ('2', '用户管理', '/admin/account', 'fa fa-users', '1', '0', '1', '用户管理', '2017-03-31 06:45:10', null, null, null), ('3', '角色管理', '/admin/role', 'fa fa-users', '2', '0', '1', null, '2017-03-30 10:00:18', '2017-03-30 09:33:17', null, null), ('4', '角色成员管理', '/admin/roleMember', 'fa fa-users', '3', '0', '1', null, '2017-04-07 06:06:12', '2017-04-07 06:06:12', null, null), ('5', '群组管理', '/admin/group', 'fa fa-users', '4', '0', '1', null, '2017-04-07 06:08:04', '2017-04-07 06:08:04', null, null), ('6', '群组成员管理', '/admin/groupMember', 'fa fa-users', '5', '0', '1', null, '2017-04-07 06:08:27', '2017-04-07 06:08:27', null, null), ('7', '菜单管理', '/admin/menu', 'fa fa-users', '6', '0', '1', null, '2017-04-07 06:08:43', '2017-04-07 06:08:43', null, null), ('9', '内容管理', '', 'fa fa-users', '7', '0', '0', null, '2017-04-07 07:58:53', '2017-04-07 07:57:01', null, null), ('10', '栏目管理', '/admin/cms/catalog', 'fa fa-users', '8', '9', '1', null, '2017-04-07 07:57:47', '2017-04-07 07:57:47', null, null), ('11', '文章管理', '/admin/cms/article', 'fa fa-users', '9', '9', '1', null, '2017-04-07 07:58:20', '2017-04-07 07:58:20', null, null), ('12', '评论管理', '/admin/cms/comment', 'fa fa-users', '10', '9', '1', null, '2017-04-07 07:58:53', '2017-04-07 07:58:53', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -425,7 +432,7 @@ CREATE TABLE `s_role` (
 --  Records of `s_role`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_role` VALUES ('1', '管理员', '管理员', '1', '2017-03-30 05:59:32', '2017-03-30 05:59:32', null, null), ('2', '业务员', '业务员', '2', '2017-03-30 05:59:49', '2017-03-30 05:59:49', null, null), ('3', '普通用户', '普通用户', '3', '2017-03-30 06:00:20', '2017-03-30 06:00:20', null, null);
+INSERT INTO `s_role` VALUES ('1', '超级管理员', '超级管理员', '1', '2017-03-30 05:59:32', '2017-03-30 05:59:32', null, null), ('2', '管理员', '管理员', '2', '2017-03-30 05:59:49', '2017-03-30 05:59:49', null, null), ('3', '普通用户', '普通用户', '3', '2017-03-30 06:00:20', '2017-03-30 06:00:20', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -446,7 +453,7 @@ CREATE TABLE `s_role_member` (
 --  Records of `s_role_member`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_role_member` VALUES ('1', '1', '2017-03-30 12:23:42', '2017-03-30 12:23:42', null, null), ('2', '1', null, null, null, null), ('3', '1', null, null, null, null);
+INSERT INTO `s_role_member` VALUES ('1', '1', '2017-03-30 12:23:42', '2017-03-30 12:23:42', null, null), ('2', '1', null, null, null, null), ('2', '2', null, null, null, null), ('3', '1', null, null, null, null), ('3', '3', null, null, null, null), ('3', '4', null, null, null, null), ('3', '5', null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -461,13 +468,13 @@ CREATE TABLE `s_role_menu` (
   `updated_by` int(11) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`s_role_id`,`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `s_role_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_role_menu` VALUES ('1', '1', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '2', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '3', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '4', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '5', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '6', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '7', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '9', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '10', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '11', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '12', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null);
+INSERT INTO `s_role_menu` VALUES ('1', '1', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '2', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '3', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '4', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '5', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '6', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '7', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '9', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '10', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '11', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('1', '12', '2017-04-07 08:14:02', '2017-04-07 08:14:02', null, null), ('2', '0', null, null, null, null), ('2', '1', null, null, null, null), ('2', '2', null, null, null, null), ('2', '3', null, null, null, null), ('2', '4', null, null, null, null), ('2', '5', null, null, null, null), ('2', '6', null, null, null, null), ('2', '7', null, null, null, null), ('2', '8', null, null, null, null), ('2', '9', null, null, null, null), ('2', '10', null, null, null, null), ('2', '11', null, null, null, null), ('2', '12', null, null, null, null);
 COMMIT;
 
 -- ----------------------------

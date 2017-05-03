@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Group;
+use App\Models\MemberGrant;
 use App\Models\MemberGrantMenu;
 use App\Repositories\MemberGrantRepository;
 
@@ -15,26 +16,25 @@ use App\Repositories\MemberGrantRepository;
  */
 class MemberGrantService
 {
-    protected $memberGrantRepository;
-
     public function __construct()
     {
-        $this->memberGrantRepository = new MemberGrantRepository();
+        $this->PrimaryKey = "account_id";
+        $this->TableName  = 's_member_grant';
     }
 
     public function deleteMemberGrant($account_id)
     {
-        return $this->memberGrantRepository->deleteMemberGrant($account_id);
+        return MemberGrant::where('account_id', '=', $account_id)->delete();
     }
 
     public function insertMemberGrant($arrData)
     {
-        return $this->memberGrantRepository->insertMemberGrant($arrData);
+        return MemberGrant::create($arrData);
     }
 
     public function getSelectedGroupTree($account_id)
     {
-        $rows = $this->memberGrantRepository->getMemberGrantByAccountId($account_id);
+        $rows = MemberGrant::where('account_id', '=', $account_id)->get();
         $group_array = [];
         foreach ($rows as $row) {
             $group_array[] = $row->s_group_id;

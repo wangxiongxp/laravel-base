@@ -14,21 +14,24 @@ use App\Repositories\GroupRepository;
  */
 class GroupService
 {
-    protected $groupRepository;
-
     public function __construct()
     {
-        $this->groupRepository = new GroupRepository();
+        $this->PrimaryKey = "s_group_id";
+        $this->TableName  = 's_group';
     }
 
     public function getGroupById($s_group_id)
     {
-        return $this->groupRepository->getGroupById($s_group_id);
+        return Group::leftJoin('s_group as parent','s_group.s_group_parent', '=', 'parent.s_group_id')
+            ->leftJoin('s_group_type','s_group_type.s_group_type_id', '=', 's_group.s_group_type_id')
+            ->select('s_group.*','parent.s_group_name as s_group_parent_name','s_group_type.s_group_type_name')
+            ->where('s_group.s_group_id', '=', $s_group_id)->first();
     }
 
     public function insertGroup($arrData)
     {
-        $group = $this->groupRepository->getGroupById($arrData['s_group_parent']);
+        $group = Group::where('s_group_id', '=', $arrData['s_group_parent'])
+            ->first();
 
         $s_group_right = $group->s_group_right;
         $s_group_left  = $group->s_group_left;
@@ -50,13 +53,10 @@ class GroupService
         $group_data['s_group_level']    = $group->s_group_level + 1;
         $group_data['s_group_leaf']     = 1 ;
 
-        $this->groupRepository->insertGroup($group_data);
+        Group::create($group_data);
 
         if($group->s_group_leaf == 1){
-            $data = array();
-            $data['s_group_id'] = $arrData['s_group_parent'] ;
-            $data['s_group_leaf'] = 0 ;
-            $this->groupRepository->updateGroup($data);
+            Group::where('s_group_id','=',$arrData['s_group_parent'])->update(["s_group_leaf"=>0]);
         }
 
         return true;
@@ -64,12 +64,14 @@ class GroupService
 
     public function updateGroup($arrData)
     {
-        return $this->groupRepository->updateGroup($arrData);
+        $s_group_id = $arrData['s_group_id'];
+        return Group::where('s_group_id','=',$s_group_id)->update($arrData);
     }
 
     public function deleteGroup($s_group_id)
     {
-        $group = $this->groupRepository->getGroupById($s_group_id);
+        $group = Group::where('s_group_id', '=', $s_group_id)
+            ->first();
 
         $s_group_right = $group->s_group_right;
         $s_group_left  = $group->s_group_left;
@@ -95,7 +97,7 @@ class GroupService
 
     public function getGroupTree($s_group_parent)
     {
-        $root = $this->groupRepository->getGroupByParent($s_group_parent);
+        $root = Group::where('s_group_parent', '=', $s_group_parent)->get();
 
         $arrResult = array();
 

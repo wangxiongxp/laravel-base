@@ -16,9 +16,19 @@ class AccountController extends Controller
         $this->accountService = $accountService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin/account/index');
+        $act = $request['act'] ? $request['act'] : '' ;
+        if($act == 'add'){
+            return view('admin/account/addAccount');
+        }elseif ($act == 'edit'){
+            $data = array();
+            $article = $this->accountService->getAccountById($request['id']);
+            $data['account'] = $article ;
+            return view('admin/account/editAccount',$data);
+        }else{
+            return view('admin/account/index');
+        }
     }
 
     public function queryAccount(Request $request)
@@ -28,21 +38,10 @@ class AccountController extends Controller
         return $this->showPageResult($result);
     }
 
-    public function addAccount(){
-        return view('admin/account/addAccount');
-    }
-
     public function saveAccount(Request $request)
     {
         $this->accountService->insertAccount($request->all());
         return $this->showJsonResult(true, '保存成功', null);
-    }
-
-    public function editAccount($account_id){
-        $data = array();
-        $account = $this->accountService->getAccountById($account_id);
-        $data['account'] = $account ;
-        return view('admin/account/editAccount',$data);
     }
 
     public function updateAccount(Request $request)
@@ -70,6 +69,56 @@ class AccountController extends Controller
         $password = bcrypt($request['password']) ;
         $this->accountService->updateAccountPassword($account_id,$password);
         return $this->showJsonResult(true, '更新成功', null);
+    }
+
+    public function export(Request $request)
+    {
+        $objExcel = new \PHPExcel();
+//        $objExcel->getProperties()->setCreator("Maarten Balliauw")
+//            ->setLastModifiedBy("Maarten Balliauw")
+//            ->setTitle("Office 2007 XLSX Test Document")
+//            ->setSubject("Office 2007 XLSX Test Document")
+//            ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+//            ->setKeywords("office 2007 openxml php")
+//            ->setCategory("Test result file");
+
+        $objExcel->setActiveSheetIndex(0);
+        $objActSheet = $objExcel->getActiveSheet();
+
+        $rows = $this->accountService->getExportData($request);
+
+        $objActSheet->setCellValue("A1", "ID");
+        $objActSheet->setCellValue("B1", "用户名");
+        $objActSheet->setCellValue("C1", "真实姓名");
+        $objActSheet->setCellValue("D1", "邮箱");
+        $objActSheet->setCellValue("E1", "电话");
+
+        $rowIndex = 2;
+        foreach( $rows as $row ){
+            $objActSheet->setCellValue("A$rowIndex", $row['account_id']);
+            $objActSheet->setCellValue("B$rowIndex", $row['account_name']);
+            $objActSheet->setCellValue("C$rowIndex", $row['account_real_name']);
+            $objActSheet->setCellValue("D$rowIndex", $row['account_email']);
+            $objActSheet->setCellValue("E$rowIndex", $row['account_tel']);
+            $rowIndex++;
+        }
+
+//        $objActSheet->setTitle('Simple');
+//        $objExcel->setActiveSheetIndex(0);
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel5');
+        $outputFileName = "".date("Y-m-d",time()).".xls";
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$outputFileName.'"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+        $objWriter->save('php://output');
+        exit;
+
     }
 
 

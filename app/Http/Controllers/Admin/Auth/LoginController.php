@@ -54,6 +54,7 @@ class LoginController extends Controller
 
         //将所有当前帐号所有角色写入session
         Session::put("roles", $roles);
+
         if ($roles){
             if(count($roles)>0){
                 //当前选中角色写入Session

@@ -20,23 +20,18 @@
             </ul>
         </div>
 
-
-        <div class="row">
-            <div class="col-md-9">
-                <h3 class="page-title">
-                    新增栏目 &nbsp;<small>设定文章的栏目，目前仅支持两级</small>
-                </h3>
-            </div>
-            <div class="col-md-3" style="text-align: right">
-                <div class="actions"  style="margin:20px 0">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" >
+        <div class="row" style="margin-top: 20px;">
             <div class="col-md-12" >
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet light bordered">
+
+                    <div class="portlet-title">
+                        <div class="caption font-dark">
+                            <i class="icon-settings font-dark"></i>
+                            <span class="caption-subject bold uppercase"> 新增栏目</span>
+                        </div>
+                    </div>
+
                     <div class="portlet-body">
                         <div class="row">
                             <div class="col-md-12">

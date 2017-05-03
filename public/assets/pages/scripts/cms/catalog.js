@@ -1,11 +1,11 @@
 
 function GridClickFunction_Add(){
-    var url = '/admin/cms/catalog/add';
+    var url = '/admin/cms/catalog?act=add';
     location.href = url ;
 }
 
 function GridClickFunction_Edit (menuId){
-    var url = '/admin/cms/catalog/edit/'+menuId ;
+    var url = '/admin/cms/catalog?act=edit&id='+menuId ;
     location.href = url ;
 }
 

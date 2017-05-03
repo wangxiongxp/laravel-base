@@ -20,22 +20,20 @@
         </ul>
     </div>
 
-    <div class="row">
-        <div class="col-md-9">
-            <h3 class="page-title">
-                评论管理 &nbsp;<small>评论管理。</small>
-            </h3>
-        </div>
-        <div class="col-md-3" style="text-align: right">
-            <div class="actions"  style="margin:20px 0">
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
+    <div class="row" style="margin-top: 20px;">
         <div class="col-md-12" >
             <div class="portlet light bordered">
                 <!-- Begin: life time stats -->
+
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> 评论管理</span>
+                    </div>
+                    <div class="actions">
+                    </div>
+                </div>
+
                 <div class="portlet-body table-container">
                     <div class="table-group-search-wrapper" style="display:none">
                         <div class="input-group input-medium pull-right">

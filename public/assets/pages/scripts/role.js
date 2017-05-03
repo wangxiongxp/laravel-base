@@ -5,7 +5,6 @@ function RenderOptionCol(val,type,item)
 {
     var opts = '';
     opts += '<a href="javascript:void(0)" class="btn-edit">编辑角色</a><br/>';
-    // opts += '<a href="javascript:void(0)" class="btn-auth">API权限设定</a><br/>';
     opts += '<a href="javascript:void(0)" class="btn-menu">菜单设定</a><br/>';
     opts += '<a href="javascript:void(0)" class="btn-delete">删除角色</a> ';
     return opts;
@@ -33,7 +32,7 @@ $(document).ready(function(){
                 "url": "/admin/role/query",
             },
             "order": [
-                [1, "desc"]
+                [1, "asc"]
             ]
         }
     });

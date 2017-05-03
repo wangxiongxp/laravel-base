@@ -20,27 +20,25 @@
         </ul>
     </div>
 
-    <div class="row">
-        <div class="col-md-9">
-            <h3 class="page-title">
-                成员管理 &nbsp;<small>维护组织内成员信息，手机号将作为云助理登录帐号使用。</small>
-            </h3>
-        </div>
-        <div class="col-md-3" style="text-align: right">
-            <div class="actions"  style="margin:20px 0">
-                <div class="btn-group">
-                    <a class="btn btn-default btn-sm"  onclick="GridClickFunction_Add()" href="javascript:;" >
-                        <i class="fa fa-plus"></i> 新增成员
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
+    <div class="row" style="margin-top: 20px;">
         <div class="col-md-12" >
             <div class="portlet light bordered">
                 <!-- Begin: life time stats -->
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject bold uppercase"> 成员管理</span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided" >
+                            <label onclick="GridClickFunction_Add()" class="btn btn-transparent dark btn-outline btn-circle btn-sm">
+                                <i class="fa fa-plus"></i> 新增成员</label>
+                            <label onclick="GridClickFunction_Export()" class="btn btn-transparent dark btn-outline btn-circle btn-sm">
+                                <i class="fa fa-plus"></i> 导出Excel</label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="portlet-body table-container">
                     <div class="table-group-search-wrapper" style="display:none">
                         <div class="input-group input-medium pull-right">

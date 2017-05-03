@@ -11,6 +11,7 @@ function RenderOptionCol(val,type,item)
 }
 
 $(document).ready(function(){
+
     var cols = [
         // {data:'accountId',name:'sys_account_id',orderable:false,createdCell:function(cell, cellData, rowData, rowIndex, colIndex){
         //     $(cell).html("<input type='checkbox' name='checkList' value='" + cellData + "'/>")} },
@@ -64,32 +65,35 @@ $(document).ready(function(){
 });
 
 function GridClickFunction_Add(){
-    var url = '/admin/account/add';
-    $.ajax({
-        type: "GET",
-        url: url,
-        dataType: 'html',
-        success: function(data){
-            $('#popupModel .modal-content').html(data);
-            App.initSlimScroll('.scroller');
-        }
-    });
-    $('#popupModel').modal('show');
+    var url = '/admin/account?act=add';
+    location.href = url ;
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: url,
+    //     dataType: 'html',
+    //     success: function(data){
+    //         $('#popupModel .modal-content').html(data);
+    //         App.initSlimScroll('.scroller');
+    //     }
+    // });
+    // $('#popupModel').modal('show');
 }
 
 function GridClickFunction_Edit(item){
-    var account_id = item.account_id;
-    var url = "/admin/account/edit/"+account_id;
-    $.ajax({
-        type: "GET",
-        url: url,
-        dataType: 'html',
-        success: function(data){
-            $('#popupModel .modal-content').html(data);
-            App.initSlimScroll('.scroller');
-        }
-    });
-    $('#popupModel').modal('show');
+    var url = "/admin/account?act=edit&id="+item.account_id;
+    location.href = url ;
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: url,
+    //     dataType: 'html',
+    //     success: function(data){
+    //         $('#popupModel .modal-content').html(data);
+    //         App.initSlimScroll('.scroller');
+    //     }
+    // });
+    // $('#popupModel').modal('show');
 }
 
 function GridClickFunction_Delete(item){
@@ -111,6 +115,7 @@ function GridClickFunction_Delete(item){
 function GridClickFunction_ResetPwd(item){
     var account_id = item.account_id;
     var url = '/admin/account/showResetPassword/'+account_id ;
+
     $.ajax({
         type: "GET",
         url: url,
@@ -121,4 +126,10 @@ function GridClickFunction_ResetPwd(item){
         }
     });
     $('#popupModel').modal('show');
+}
+
+function GridClickFunction_Export(){
+    var url = "/admin/account/export";
+    location.target = "_blank" ;
+    location.href = url ;
 }

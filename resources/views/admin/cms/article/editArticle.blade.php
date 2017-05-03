@@ -26,6 +26,13 @@
 
                 <div class="portlet light bordered">
 
+                    <div class="portlet-title">
+                        <div class="caption font-dark">
+                            <i class="icon-settings font-dark"></i>
+                            <span class="caption-subject bold uppercase"> 编辑文章</span>
+                        </div>
+                    </div>
+
                     <div class="portlet-body form">
                         <form role="form" class="form-horizontal" method="post" id="EditForm" action="/admin/cms/article/update">
                             <div class="form-body" style="padding-top:30px;">

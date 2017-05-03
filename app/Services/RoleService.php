@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Models\RoleMenu;
-use App\Repositories\RoleRepository;
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -18,37 +19,78 @@ class RoleService
 
     public function __construct()
     {
-        $this->roleRepository = new RoleRepository();
+        $this->PrimaryKey = "s_role_id";
+        $this->TableName  = 's_role';
     }
 
     public function queryRole($arrData)
     {
-        return $this->roleRepository->queryRole($arrData);
+        $draw       = $arrData['draw'] ;
+        $keyword    = $arrData['keyword'] ;
+
+        $length     = $arrData['length'] ;
+        $start      = $arrData['start'] ;
+
+        $query = DB::table($this->TableName);
+        if(!empty($keyword)){
+            $query->where('s_role_name','like', '%'.$keyword.'%');
+        }
+
+        $sum = $query->count();
+
+        if(isset($arrData['orderBy'])){
+            $arrSort = explode('.', $arrData['orderBy']);
+            $query->orderBy($arrSort[0], $arrSort[1]);
+        }
+
+        if($sum > 0){
+            $rows = $query->skip($start)->take($length)->get();
+        }else{
+            $rows = array();
+        }
+
+        //当前第几页
+        $start = intval($start) + 1 ;
+        if($start % $length == 0){
+            $page = $start / $length ;
+        }else{
+            $page = $start / $length + 1 ;
+        }
+
+        $resultData = array();
+        $resultData['draw']            = $draw ;
+        $resultData['page']            = intval($page);//当前第几页
+        $resultData['recordsTotal']    = $sum ;//总数量
+        $resultData['recordsFiltered'] = $sum ;
+        $resultData['items']           = $rows ;//数据
+
+        return $resultData ;
     }
 
     public function getRoleById($s_role_id)
     {
-        return $this->roleRepository->getRoleById($s_role_id);
+        return Role::where('s_role_id', '=', $s_role_id)->first();
     }
 
     public function insertRole($arrData)
     {
-        return $this->roleRepository->insertRole($arrData);
+        return Role::create($arrData);
     }
 
     public function updateRole($arrData)
     {
-        return $this->roleRepository->updateRole($arrData);
+        $s_role_id = $arrData['s_role_id'];
+        return Role::where('s_role_id','=',$s_role_id)->update($arrData);
     }
 
     public function deleteRole($s_role_id)
     {
-        return $this->roleRepository->deleteRole($s_role_id);
+        return Role::where('s_role_id', '=', $s_role_id)->delete();
     }
 
     public function getRoleTree()
     {
-        $root = $this->roleRepository->getAllRoles();
+        $root = Role::all();
 
         $arrResult = array();
 
@@ -102,11 +144,19 @@ class RoleService
 
     public function getCheckedMenus($s_role_id,$menu_parent)
     {
-        $root = $this->roleRepository->getCheckedMenus($s_role_id,$menu_parent);
+        $root = Menu::leftJoin('s_role_menu', function($join) use($s_role_id){
+            $join->on('s_role_menu.menu_id', '=', 'menu.menu_id')
+                ->where('s_role_menu.s_role_id','=',$s_role_id);
+        })
+            ->where('menu.menu_parent','=', $menu_parent)
+            ->orderBy('menu.menu_sort')
+            ->select('menu.*','s_role_menu.s_role_id')->get();
+
         foreach($root as &$item)
         {
             $item->sub = $this->getCheckedMenus($s_role_id,$item->menu_id);
         }
+
         return $root;
     }
 

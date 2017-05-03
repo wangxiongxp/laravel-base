@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Http\Utils;
 use App\Models\CmsArticle;
-use App\Repositories\CmsArticleRepository;
-
+use Illuminate\Support\Facades\DB;
 
 /**
  * Created by PhpStorm.
@@ -14,36 +14,87 @@ use App\Repositories\CmsArticleRepository;
  */
 class CmsArticleService
 {
-    protected $cmsArticleRepository;
-
     public function __construct()
     {
-        $this->cmsArticleRepository = new CmsArticleRepository();
+        $this->PrimaryKey = "id";
+        $this->TableName  = 'cms_article';
     }
 
     public function queryArticle($arrData)
     {
-        return $this->cmsArticleRepository->queryArticle($arrData);
+        $draw       = $arrData['draw'] ;
+        $keyword    = $arrData['keyword'] ;
+
+        $length     = $arrData['length'] ;
+        $start      = $arrData['start'] ;
+
+        $query = DB::table($this->TableName)
+            ->leftJoin('cms_catalog','cms_catalog.id', '=', 'cms_article.catalog_id')
+            ->select("cms_article.*","cms_catalog.name as cms_catalog_name");
+
+        if(!empty($keyword)){
+            $query->where('title','like', '%'.$keyword.'%');
+        }
+
+        $sum = $query->count();
+
+        if(isset($arrData['orderBy'])){
+            $arrSort = explode('.', $arrData['orderBy']);
+            $query->orderBy($arrSort[0], $arrSort[1]);
+        }
+
+        if($sum > 0){
+            $rows = $query->skip($start)->take($length)->get();
+        }else{
+            $rows = array();
+        }
+
+        //当前第几页
+        $start = intval($start) + 1 ;
+        if($start % $length == 0){
+            $page = $start / $length ;
+        }else{
+            $page = $start / $length + 1 ;
+        }
+
+        $resultData = array();
+        $resultData['draw']            = $draw ;
+        $resultData['page']            = intval($page);//当前第几页
+        $resultData['recordsTotal']    = $sum ;//总数量
+        $resultData['recordsFiltered'] = $sum ;
+        $resultData['items']           = $rows ;//数据
+
+        return $resultData ;
     }
 
     public function getArticleById($account_id)
     {
-        return $this->cmsArticleRepository->getArticleById($account_id);
+        return CmsArticle::select("cms_article.*","cms_catalog.name as catalog_name")
+            ->leftJoin("cms_catalog","cms_catalog.id", "=", "cms_article.catalog_id")
+            ->where('cms_article.id', '=', $id)
+            ->first();
     }
 
     public function insertArticle($arrData)
     {
-        return $this->cmsArticleRepository->insertArticle($arrData);
+        if($arrData['status'] == 'PUBLISHED'){
+            $arrData['publish_time'] = $arrData['created_at'] ;
+        }
+        return CmsArticle::create($arrData);
     }
 
     public function updateArticle($arrData)
     {
-        return $this->cmsArticleRepository->updateArticle($arrData);
+        $id = $arrData['id'];
+        if($arrData['status'] == 'PUBLISHED'){
+            $arrData['publish_time'] = Utils::GetDatetimeWithUTC();
+        }
+        return CmsArticle::where('id','=',$id)->update($arrData);
     }
 
-    public function deleteArticle($account_id)
+    public function deleteArticle($id)
     {
-        return $this->cmsArticleRepository->deleteArticle($account_id);
+        return CmsArticle::where('id', '=', $id)->delete();
     }
 
     public function updateIsTopStatus($id,$status)
