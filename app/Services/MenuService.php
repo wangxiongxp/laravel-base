@@ -48,8 +48,10 @@ class MenuService
 
     public function deleteMenu($menu_id)
     {
-        $menu = Menu::where('menu_id', '=', $menu_id)->get();
+        $menu = Menu::where('menu_id', '=', $menu_id)->first();
         Menu::where('menu_id', '=', $menu_id)->delete();
+        Menu::where('menu_parent', '=', $menu_id)->delete();
+
         $menus = Menu::where('menu_parent', '=', $menu->menu_parent)->get();
         if(count($menus)<1){
             Menu::where('menu_id','=',$menu->menu_parent)->update(['menu_leaf'=>1]);
