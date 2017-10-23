@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Account;
-use App\Repositories\AccountRepository;
 use Illuminate\Support\Facades\DB;
 
 
@@ -21,6 +20,11 @@ class AccountService
         $this->TableName  = 'account';
     }
 
+    /**
+     * 查询账户
+     * @param $arrData
+     * @return array
+     */
     public function queryAccount($arrData)
     {
         $draw       = $arrData['draw'] ;
@@ -65,6 +69,11 @@ class AccountService
         return $resultData ;
     }
 
+    /**
+     * 通过主键id查找
+     * @param $account_id
+     * @return mixed
+     */
     public function getAccountById($account_id)
     {
         //原生sql操作
@@ -79,6 +88,11 @@ class AccountService
         return Account::where('account_id', '=', $account_id)->first();
     }
 
+    /**
+     * 保存账户
+     * @param $arrData
+     * @return mixed
+     */
     public function insertAccount($arrData)
     {
         //原生SQL，新增成功返回true
@@ -104,6 +118,11 @@ class AccountService
         return Account::create($arrData);
     }
 
+    /**
+     * 更新账户
+     * @param $arrData
+     * @return mixed
+     */
     public function updateAccount($arrData)
     {
         $account_id = $arrData['account_id'];
@@ -124,6 +143,11 @@ class AccountService
         return Account::where('account_id','=',$account_id)->update($arrData);
     }
 
+    /**
+     * 删除账户
+     * @param $account_id
+     * @return mixed
+     */
     public function deleteAccount($account_id)
     {
         //原生sql操作，返回删除的行数
@@ -142,11 +166,22 @@ class AccountService
         return Account::where('account_id', '=', $account_id)->delete();
     }
 
+    /**
+     * 更新密码
+     * @param $account_id
+     * @param $password
+     * @return mixed
+     */
     public function updateAccountPassword($account_id,$password)
     {
         return Account::where('account_id','=',$account_id)->update(['password'=>$password]) ;
     }
 
+    /**
+     * 查询导出数据
+     * @param $arrData
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getExportData($arrData)
     {
         return Account::all() ;

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Menu;
 use App\Models\Role;
 use App\Models\RoleMenu;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,11 @@ class RoleService
         $this->TableName  = 's_role';
     }
 
+    /**
+     * 查询角色
+     * @param $arrData
+     * @return array
+     */
     public function queryRole($arrData)
     {
         $draw       = $arrData['draw'] ;
@@ -67,27 +73,51 @@ class RoleService
         return $resultData ;
     }
 
+    /**
+     * 通过id查找角色
+     * @param $s_role_id
+     * @return mixed
+     */
     public function getRoleById($s_role_id)
     {
         return Role::where('s_role_id', '=', $s_role_id)->first();
     }
 
+    /**
+     * 保存角色
+     * @param $arrData
+     * @return mixed
+     */
     public function insertRole($arrData)
     {
         return Role::create($arrData);
     }
 
+    /**
+     * 更新角色
+     * @param $arrData
+     * @return mixed
+     */
     public function updateRole($arrData)
     {
         $s_role_id = $arrData['s_role_id'];
         return Role::where('s_role_id','=',$s_role_id)->update($arrData);
     }
 
+    /**
+     * 删除角色
+     * @param $s_role_id
+     * @return mixed
+     */
     public function deleteRole($s_role_id)
     {
         return Role::where('s_role_id', '=', $s_role_id)->delete();
     }
 
+    /**
+     * 查看角色树
+     * @return array
+     */
     public function getRoleTree()
     {
         $root = Role::all();
@@ -110,6 +140,12 @@ class RoleService
         return $arrResult;
     }
 
+    /**
+     * 角色的菜单权限
+     * @param $parent_id
+     * @param $s_role_id
+     * @return array
+     */
     public function GetMenuTreeOfRole($parent_id,$s_role_id)
     {
         $arrResult = array();
@@ -142,6 +178,12 @@ class RoleService
         return $arrResult;
     }
 
+    /**
+     * 查看角色菜单
+     * @param $s_role_id
+     * @param $menu_parent
+     * @return mixed
+     */
     public function getCheckedMenus($s_role_id,$menu_parent)
     {
         $root = Menu::leftJoin('s_role_menu', function($join) use($s_role_id){
@@ -160,6 +202,10 @@ class RoleService
         return $root;
     }
 
+    /**
+     * 保存角色菜单
+     * @param $arrData
+     */
     public function saveMenus($arrData)
     {
         $s_role_id = $arrData['s_role_id'];

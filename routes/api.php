@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'auth:api'], function () {
 
-    Route::post('/cms/article/query', 'Admin\Cms\CmsArticleController@queryArticle');
+//    Route::post('/cms/article/query', 'Admin\Cms\CmsArticleController@queryArticle');
 
 });

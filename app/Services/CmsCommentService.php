@@ -20,6 +20,11 @@ class CmsCommentService
         $this->TableName  = 'cms_comment';
     }
 
+    /**
+     * 查询评论
+     * @param $arrData
+     * @return array
+     */
     public function queryComment($arrData)
     {
         $draw       = $arrData['draw'] ;
@@ -67,6 +72,11 @@ class CmsCommentService
         return $resultData ;
     }
 
+    /**
+     * 通过id查找
+     * @param $id
+     * @return mixed
+     */
     public function getCommentById($id)
     {
         return CmsComment::leftJoin('cms_article','cms_article.id', '=', 'cms_comment.article_id')
@@ -74,17 +84,32 @@ class CmsCommentService
             ->where('cms_comment.id', '=', $id)->first();
     }
 
+    /**
+     * 保存评论
+     * @param $arrData
+     * @return mixed
+     */
     public function insertComment($arrData)
     {
         return CmsComment::create($arrData);
     }
 
+    /**
+     * 更新评论
+     * @param $arrData
+     * @return mixed
+     */
     public function updateComment($arrData)
     {
         $id = $arrData['id'];
         return CmsComment::where('id','=',$id)->update($arrData);
     }
 
+    /**
+     * 更新评论状态
+     * @param $arrData
+     * @return mixed
+     */
     public function updateStatus($arrData)
     {
         $id = $arrData['id'];
@@ -92,6 +117,11 @@ class CmsCommentService
         return CmsComment::where('id','=',$id)->update(["status"=>$status]);
     }
 
+    /**
+     * 删除评论
+     * @param $id
+     * @return mixed
+     */
     public function deleteComment($id)
     {
         return CmsComment::where('id', '=', $id)->delete();

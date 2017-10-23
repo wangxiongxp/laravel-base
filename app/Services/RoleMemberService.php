@@ -22,6 +22,11 @@ class RoleMemberService
         $this->TableName  = 's_role_member';
     }
 
+    /**
+     * 查询角色成员
+     * @param $arrData
+     * @return array
+     */
     public function queryRoleMember($arrData)
     {
         $draw       = $arrData['draw'] ;
@@ -73,6 +78,11 @@ class RoleMemberService
         return $resultData ;
     }
 
+    /**
+     * 保存角色成员
+     * @param $arrData
+     * @return bool
+     */
     public function insertRoleMember($arrData)
     {
         $s_role_id  = $arrData['s_role_id'];
@@ -89,12 +99,23 @@ class RoleMemberService
         return true;
     }
 
+    /**
+     * 删除角色成员
+     * @param $s_role_id
+     * @param $account_id
+     * @return mixed
+     */
     public function deleteRoleMember($s_role_id, $account_id)
     {
         return RoleMember::where('s_role_id', '=', $s_role_id)
             ->where('account_id', '=', $account_id)->delete();
     }
 
+    /**
+     * 查询用户角色
+     * @param $account_id
+     * @return mixed
+     */
     public function getAccountRoles($account_id)
     {
         return DB::select('select DISTINCT b.* from s_role_member as a

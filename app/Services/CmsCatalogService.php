@@ -18,16 +18,31 @@ class CmsCatalogService
         $this->TableName  = 'cms_catalog';
     }
 
+    /**
+     * 通过id查找分类
+     * @param $id
+     * @return mixed
+     */
     public function getCatalogById($id)
     {
         return CmsCatalog::where('id', '=', $id)->first();
     }
 
+    /**
+     * 通过父亲id查找分类
+     * @param $parent_id
+     * @return mixed
+     */
     public function getCatalogByParent($parent_id)
     {
         return CmsCatalog::where('parent_id', '=', $parent_id)->get();
     }
 
+    /**
+     * 保存分类
+     * @param $arrData
+     * @return bool
+     */
     public function insertCatalog($arrData)
     {
         $arrData['is_leaf'] = 1;
@@ -38,11 +53,21 @@ class CmsCatalogService
         return true ;
     }
 
+    /**
+     * 更新分类
+     * @param $arrData
+     * @return mixed
+     */
     public function updateCatalog($arrData)
     {
         return CmsCatalog::where('id','=',$arrData['id'])->update($arrData);
     }
 
+    /**
+     * 删除分类
+     * @param $id
+     * @return bool
+     */
     public function deleteCatalog($id)
     {
         $catalog = CmsCatalog::where('id', '=', $id)->first();
@@ -54,6 +79,11 @@ class CmsCatalogService
         return true;
     }
 
+    /**
+     * 查找分类树
+     * @param $parent_id
+     * @return mixed
+     */
     public function GetCatalogTree($parent_id)
     {
         $root = CmsCatalog::where('parent_id', '=', $parent_id)->orderBy('sort')->get();

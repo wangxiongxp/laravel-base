@@ -20,6 +20,11 @@ class CmsArticleService
         $this->TableName  = 'cms_article';
     }
 
+    /**
+     * 查询文章
+     * @param $arrData
+     * @return array
+     */
     public function queryArticle($arrData)
     {
         $draw       = $arrData['draw'] ;
@@ -67,6 +72,11 @@ class CmsArticleService
         return $resultData ;
     }
 
+    /**
+     * 通过id查找
+     * @param $account_id
+     * @return mixed
+     */
     public function getArticleById($account_id)
     {
         return CmsArticle::select("cms_article.*","cms_catalog.name as catalog_name")
@@ -75,6 +85,11 @@ class CmsArticleService
             ->first();
     }
 
+    /**
+     * 保存文章
+     * @param $arrData
+     * @return mixed
+     */
     public function insertArticle($arrData)
     {
         if($arrData['status'] == 'PUBLISHED'){
@@ -83,6 +98,11 @@ class CmsArticleService
         return CmsArticle::create($arrData);
     }
 
+    /**
+     * 更新文章
+     * @param $arrData
+     * @return mixed
+     */
     public function updateArticle($arrData)
     {
         $id = $arrData['id'];
@@ -92,21 +112,44 @@ class CmsArticleService
         return CmsArticle::where('id','=',$id)->update($arrData);
     }
 
+    /**
+     * 删除文章
+     * @param $id
+     * @return mixed
+     */
     public function deleteArticle($id)
     {
         return CmsArticle::where('id', '=', $id)->delete();
     }
 
+    /**
+     * 更新置顶状态
+     * @param $id
+     * @param $status
+     * @return mixed
+     */
     public function updateIsTopStatus($id,$status)
     {
         return CmsArticle::where('id','=',$id)->update(["is_top"=>$status]);
     }
 
+    /**
+     * 更新评论状态
+     * @param $id
+     * @param $status
+     * @return mixed
+     */
     public function updateCommentStatus($id,$status)
     {
         return CmsArticle::where('id','=',$id)->update(["allow_comment"=>$status]);
     }
 
+    /**
+     * 更新可见状态
+     * @param $id
+     * @param $status
+     * @return mixed
+     */
     public function updateVisibilityStatus($id,$status)
     {
         return CmsArticle::where('id','=',$id)->update(["visibility"=>$status]);

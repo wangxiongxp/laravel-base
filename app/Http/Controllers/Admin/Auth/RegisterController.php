@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Models\Account;
 use App\Services\AccountService;
-use App\Services\SMSCodeService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Validator;

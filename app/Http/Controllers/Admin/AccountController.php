@@ -6,71 +6,98 @@ use App\Http\Controllers\Controller;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 
-class AccountController extends Controller
-{
+class AccountController extends Controller{
+
     protected $accountService;
 
-    public function __construct(AccountService $accountService)
-    {
+    public function __construct(AccountService $accountService){
         $this->middleware('auth');
         $this->accountService = $accountService;
     }
 
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+
         $act = $request['act'] ? $request['act'] : '' ;
         if($act == 'add'){
             return view('admin/account/addAccount');
         }elseif ($act == 'edit'){
             $data = array();
-            $article = $this->accountService->getAccountById($request['id']);
-            $data['account'] = $article ;
+            $account= $this->accountService->getAccountById($request['id']);
+            $data['account'] = $account ;
             return view('admin/account/editAccount',$data);
         }else{
             return view('admin/account/index');
         }
     }
 
-    public function queryAccount(Request $request)
-    {
+    /**
+     * 查询账户
+     * @param Request $request
+     * @return mixed
+     */
+    public function queryAccount(Request $request){
         $queryParam = $this->buildSearchParam($request);
         $result = $this->accountService->queryAccount($queryParam);
         return $this->showPageResult($result);
     }
 
-    public function saveAccount(Request $request)
-    {
+    /**
+     * 保存账户
+     * @param Request $request
+     * @return mixed
+     */
+    public function saveAccount(Request $request){
         $this->accountService->insertAccount($request->all());
         return $this->showJsonResult(true, '保存成功', null);
     }
 
-    public function updateAccount(Request $request)
-    {
+    /**
+     * 更新账户
+     * @param Request $request
+     * @return mixed
+     */
+    public function updateAccount(Request $request){
         $this->accountService->updateAccount($request->all());
         return $this->showJsonResult(true, '更新成功', null);
     }
 
-    public function deleteAccount($id)
-    {
+    /**
+     * 删除账户
+     * @param $id
+     * @return mixed
+     */
+    public function deleteAccount($id){
         $this->accountService->deleteAccount($id);
         return $this->showJsonResult(true, '删除成功', null);
     }
 
+    /**
+     * 重置密码页面
+     * @param $account_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showResetPassword($account_id){
         $data = array();
         $data['account_id'] = $account_id ;
-
         return view('admin/account/password',$data);
     }
 
-    public function resetPassword(Request $request)
-    {
+    /**
+     * 重置密码操作
+     * @param Request $request
+     * @return mixed
+     */
+    public function resetPassword(Request $request){
         $account_id = $request['account_id'];
         $password = bcrypt($request['password']) ;
         $this->accountService->updateAccountPassword($account_id,$password);
         return $this->showJsonResult(true, '更新成功', null);
     }
 
+    /**
+     * 导出excel
+     * @param Request $request
+     */
     public function export(Request $request)
     {
         $objExcel = new \PHPExcel();
@@ -120,6 +147,5 @@ class AccountController extends Controller
         exit;
 
     }
-
 
 }

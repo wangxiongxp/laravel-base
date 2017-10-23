@@ -11,14 +11,17 @@
 |
 */
 
+//前台欢迎页
 Route::get('/', function () {
     return view('welcome');
 });
 
+//前台登录成功页面
 Route::group(['middleware' => 'auth:web'], function () {
     Route::get('/home', 'Web\HomeController@index');
 });
 
+//后台登录页面
 Route::group(['prefix' => 'admin'], function () {
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm');
     Route::post('login', 'Admin\Auth\LoginController@login');
@@ -26,6 +29,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('register', 'Admin\Auth\RegisterController@register');
 });
 
+//后台登录成功页面
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function() {
 
     Route::get('/', 'Admin\HomeController@index');
@@ -60,26 +64,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function() {
     Route::get('/roleMember/add', 'Admin\RoleMemberController@addRoleMember');
     Route::post('/roleMember/save', 'Admin\RoleMemberController@saveRoleMember');
     Route::get('/roleMember/delete/{s_role_id}/{account_id}', 'Admin\RoleMemberController@deleteRoleMember');
-
-    //群组管理
-    Route::get('/group', 'Admin\GroupController@index');
-    Route::get('/group/get/{id}', 'Admin\GroupController@getGroupById');
-    Route::get('/group/add', 'Admin\GroupController@addGroup');
-    Route::post('/group/save', 'Admin\GroupController@saveGroup');
-    Route::get('/group/edit/{id}', 'Admin\GroupController@editGroup');
-    Route::post('/group/update', 'Admin\GroupController@updateGroup');
-    Route::get('/group/delete/{id}', 'Admin\GroupController@deleteGroup');
-    Route::get('/group/getGroupTree', 'Admin\GroupController@getGroupTree');
-
-    //群组成员管理
-    Route::get('/groupMember', 'Admin\GroupMemberController@index');
-    Route::post('/groupMember/query', 'Admin\GroupMemberController@queryGroupMember');
-    Route::get('/groupMember/add', 'Admin\GroupMemberController@addGroupMember');
-    Route::post('/groupMember/save', 'Admin\GroupMemberController@saveGroupMember');
-    Route::get('/groupMember/delete/{s_group_id}/{account_id}', 'Admin\GroupMemberController@deleteGroupMember');
-    Route::get('/groupMember/selectGroup/{account_id}', 'Admin\GroupMemberController@selectGroup');
-    Route::post('/groupMember/saveGroupGrant', 'Admin\GroupMemberController@saveGroupGrant');
-    Route::get('/groupMember/getSelectedGroupTree/{account_id}', 'Admin\GroupMemberController@getSelectedGroupTree');
 
     //菜单管理
     Route::get('/menu', 'Admin\MenuController@index');

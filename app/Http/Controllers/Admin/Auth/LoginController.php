@@ -8,7 +8,6 @@ use App\Services\RoleService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\LoginService;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
